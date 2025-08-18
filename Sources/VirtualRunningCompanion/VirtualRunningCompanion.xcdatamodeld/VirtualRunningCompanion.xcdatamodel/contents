@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F82" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="FriendEntity" representedClassName="FriendEntity" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isOnline" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lastRunDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="statusData" optional="YES" attributeType="Binary"/>
+        <attribute name="totalRuns" optional="YES" attributeType="Integer 32" defaultValue="0" usesScalarValueType="YES"/>
+        <attribute name="userData" optional="YES" attributeType="Binary"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserEntity" inverseName="friends" inverseEntity="UserEntity"/>
+    </entity>
+    <entity name="RunSessionEntity" representedClassName="RunSessionEntity" syncable="YES">
+        <attribute name="averagePace" optional="YES" attributeType="Double" defaultValue="0.0" usesScalarValueType="YES"/>
+        <attribute name="distance" optional="YES" attributeType="Double" defaultValue="0.0" usesScalarValueType="YES"/>
+        <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="pacePointsData" optional="YES" attributeType="Binary"/>
+        <attribute name="participantsData" optional="YES" attributeType="Binary"/>
+        <attribute name="routeData" optional="YES" attributeType="Binary"/>
+        <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="typeData" optional="YES" attributeType="Binary"/>
+        <attribute name="userId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserEntity" inverseName="runSessions" inverseEntity="UserEntity"/>
+    </entity>
+    <entity name="SyncQueueEntity" representedClassName="SyncQueueEntity" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="data" optional="YES" attributeType="Binary"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="itemId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="itemType" optional="YES" attributeType="String"/>
+        <attribute name="operation" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="UserEntity" representedClassName="UserEntity" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="profileImageURL" optional="YES" attributeType="String"/>
+        <attribute name="username" optional="YES" attributeType="String"/>
+        <relationship name="friends" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FriendEntity" inverseName="owner" inverseEntity="FriendEntity"/>
+        <relationship name="runSessions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RunSessionEntity" inverseName="user" inverseEntity="RunSessionEntity"/>
+    </entity>
+</model>
