@@ -186,7 +186,6 @@ struct TabButton: View {
         Button(action: action) {
             Text(title)
                 .font(.subheadline)
-                .fontWeight(isSelected ? .semibold : .regular)
                 .foregroundColor(isSelected ? .accentColor : .secondary)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)
@@ -214,7 +213,6 @@ struct FriendCard: View {
                     .overlay(
                         Text(String(friend.user.username.prefix(1)).uppercased())
                             .font(.title2)
-                            .fontWeight(.bold)
                             .foregroundColor(.white)
                     )
                 
@@ -222,7 +220,6 @@ struct FriendCard: View {
                     HStack {
                         Text(friend.user.username)
                             .font(.headline)
-                            .fontWeight(.semibold)
                         
                         if friend.isOnline {
                             Circle()
@@ -282,14 +279,14 @@ struct OnlineFriendCard: View {
                 .overlay(
                     Text(String(friend.user.username.prefix(1)).uppercased())
                         .font(.title2)
-                        .fontWeight(.bold)
+                        
                         .foregroundColor(.white)
                 )
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(friend.user.username)
                     .font(.headline)
-                    .fontWeight(.semibold)
+                    
                 
                 HStack {
                     Circle()
@@ -310,7 +307,6 @@ struct OnlineFriendCard: View {
                     Text("Invite to Run")
                 }
                 .font(.caption)
-                .fontWeight(.semibold)
                 .foregroundColor(.white)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
@@ -337,14 +333,14 @@ struct PendingRequestCard: View {
                 .overlay(
                     Text(String(friend.user.username.prefix(1)).uppercased())
                         .font(.title2)
-                        .fontWeight(.bold)
+                        
                         .foregroundColor(.white)
                 )
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(friend.user.username)
                     .font(.headline)
-                    .fontWeight(.semibold)
+                    
                 
                 Text("Wants to be friends")
                     .font(.subheadline)
@@ -466,14 +462,14 @@ struct UserSearchResultCard: View {
                 .overlay(
                     Text(String(user.username.prefix(1)).uppercased())
                         .font(.headline)
-                        .fontWeight(.bold)
+                        
                         .foregroundColor(.white)
                 )
             
             VStack(alignment: .leading, spacing: 2) {
                 Text(user.username)
                     .font(.subheadline)
-                    .fontWeight(.semibold)
+                    
                 
                 Text(user.email)
                     .font(.caption)
@@ -485,7 +481,6 @@ struct UserSearchResultCard: View {
             Button(action: onAddFriend) {
                 Text("Add")
                     .font(.caption)
-                    .fontWeight(.semibold)
                     .foregroundColor(.white)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 6)

@@ -5,11 +5,11 @@ struct RunSession: Codable, Identifiable, Equatable {
     let id: UUID
     let userId: UUID
     let startTime: Date
-    let endTime: Date?
-    let distance: Double // in meters
-    let averagePace: Double // minutes per mile/km
-    let route: [CLLocationCoordinate2D]
-    let paceData: [PacePoint]
+    var endTime: Date?
+    var distance: Double // in meters
+    var averagePace: Double // minutes per mile/km
+    var route: [CLLocationCoordinate2D]
+    var paceData: [PacePoint]
     let type: RunType
     let participants: [UUID]?
     
@@ -112,8 +112,9 @@ struct RunSession: Codable, Identifiable, Equatable {
             break
         }
     }
-}/
-/ MARK: - Codable Implementation for CLLocationCoordinate2D Array
+}
+
+// MARK: - Codable Implementation for CLLocationCoordinate2D Array
 extension RunSession {
     enum CodingKeys: String, CodingKey {
         case id, userId, startTime, endTime, distance, averagePace, route, paceData, type, participants
@@ -167,5 +168,31 @@ extension RunSession {
             try coordinateContainer.encode(coordinate.latitude, forKey: .latitude)
             try coordinateContainer.encode(coordinate.longitude, forKey: .longitude)
         }
+    }
+    
+    // MARK: - Equatable Implementation
+    static func == (lhs: RunSession, rhs: RunSession) -> Bool {
+        return lhs.id == rhs.id &&
+               lhs.userId == rhs.userId &&
+               lhs.startTime == rhs.startTime &&
+               lhs.endTime == rhs.endTime &&
+               lhs.distance == rhs.distance &&
+               lhs.averagePace == rhs.averagePace &&
+               lhs.routesEqual(lhs.route, rhs.route) &&
+               lhs.paceData == rhs.paceData &&
+               lhs.type == rhs.type &&
+               lhs.participants == rhs.participants
+    }
+    
+    private func routesEqual(_ lhs: [CLLocationCoordinate2D], _ rhs: [CLLocationCoordinate2D]) -> Bool {
+        guard lhs.count == rhs.count else { return false }
+        for (index, coordinate) in lhs.enumerated() {
+            let otherCoordinate = rhs[index]
+            if coordinate.latitude != otherCoordinate.latitude || 
+               coordinate.longitude != otherCoordinate.longitude {
+                return false
+            }
+        }
+        return true
     }
 }

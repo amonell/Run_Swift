@@ -101,7 +101,7 @@ struct HistoryView: View {
                     Button(action: { selectedTimeframe = timeframe }) {
                         Text(timeframe.rawValue)
                             .font(.subheadline)
-                            .fontWeight(selectedTimeframe == timeframe ? .semibold : .regular)
+                            
                             .foregroundColor(selectedTimeframe == timeframe ? .white : .accentColor)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)
@@ -256,7 +256,7 @@ struct StatCard: View {
             
             Text(value)
                 .font(.headline)
-                .fontWeight(.bold)
+                
             
             Text(title)
                 .font(.caption)
@@ -281,7 +281,7 @@ struct RunHistoryCard: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(runTypeDisplayText)
                             .font(.headline)
-                            .fontWeight(.semibold)
+                            
                         
                         Text(formatDate(run.startTime))
                             .font(.subheadline)
@@ -394,7 +394,7 @@ struct MetricItem: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(value)
                     .font(.subheadline)
-                    .fontWeight(.semibold)
+                    
                 
                 Text(title)
                     .font(.caption2)
@@ -469,7 +469,7 @@ struct RunDetailView: View {
                     VStack(spacing: 8) {
                         Text(runTypeDisplayText)
                             .font(.title)
-                            .fontWeight(.bold)
+                            
                         
                         Text(formatDate(run.startTime))
                             .font(.subheadline)
@@ -504,7 +504,7 @@ struct RunDetailView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Route")
                                 .font(.headline)
-                                .fontWeight(.semibold)
+                                
                             
                             RoutePreview(route: run.route)
                                 .frame(height: 200)
@@ -520,7 +520,7 @@ struct RunDetailView: View {
                                 Text("Replay This Run")
                             }
                             .font(.headline)
-                            .fontWeight(.semibold)
+                            
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -534,7 +534,7 @@ struct RunDetailView: View {
                                 Text("Share Run")
                             }
                             .font(.subheadline)
-                            .fontWeight(.semibold)
+                            
                             .foregroundColor(.accentColor)
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -609,7 +609,7 @@ struct DetailStatCard: View {
         VStack(spacing: 8) {
             Text(value)
                 .font(.title2)
-                .fontWeight(.bold)
+                
                 .foregroundColor(color)
             
             Text(title)

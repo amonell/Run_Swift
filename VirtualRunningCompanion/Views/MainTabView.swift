@@ -3,6 +3,10 @@ import SwiftUI
 struct MainTabView: View {
     @State private var selectedTab = 0
     
+    // Services
+    private let locationService = LocationTrackingService()
+    private let syncService = RealTimeSyncService(serverURL: URL(string: "wss://example.com/ws")!)
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             HomeView()
@@ -12,7 +16,7 @@ struct MainTabView: View {
                 }
                 .tag(0)
             
-            RunView()
+            RunView(locationService: locationService, syncService: syncService)
                 .tabItem {
                     Image(systemName: "figure.run")
                     Text("Run")

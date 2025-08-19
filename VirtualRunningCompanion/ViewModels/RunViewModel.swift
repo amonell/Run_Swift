@@ -254,9 +254,12 @@ class RunViewModel: ObservableObject {
         
         // Send location update to sync service if in session
         if isInSyncSession && currentPace > 0 {
-            Task {
-                try? await syncService.sendPaceUpdate(pace: currentPace, location: location).value
-            }
+            syncService.sendPaceUpdate(pace: currentPace, location: location)
+                .sink(
+                    receiveCompletion: { _ in },
+                    receiveValue: { _ in }
+                )
+                .store(in: &cancellables)
         }
     }
     
@@ -276,29 +279,39 @@ class RunViewModel: ObservableObject {
     }
     
     private func joinSyncSession(sessionId: String) {
-        Task {
-            do {
-                try await syncService.joinSession(
-                    sessionId: sessionId,
-                    userId: "current-user-id", // This would come from user service
-                    friends: []
-                ).value
-                isInSyncSession = true
-            } catch {
-                print("Failed to join sync session: \(error)")
+        syncService.joinSession(
+            sessionId: sessionId,
+            userId: "current-user-id", // This would come from user service
+            friends: []
+        )
+        .receive(on: DispatchQueue.main)
+        .sink(
+            receiveCompletion: { [weak self] completion in
+                if case .failure(let error) = completion {
+                    print("Failed to join sync session: \(error)")
+                }
+            },
+            receiveValue: { [weak self] _ in
+                self?.isInSyncSession = true
             }
-        }
+        )
+        .store(in: &cancellables)
     }
     
     private func leaveSyncSession() {
-        Task {
-            do {
-                try await syncService.leaveSession().value
-                isInSyncSession = false
-            } catch {
-                print("Failed to leave sync session: \(error)")
-            }
-        }
+        syncService.leaveSession()
+            .receive(on: DispatchQueue.main)
+            .sink(
+                receiveCompletion: { [weak self] completion in
+                    if case .failure(let error) = completion {
+                        print("Failed to leave sync session: \(error)")
+                    }
+                },
+                receiveValue: { [weak self] _ in
+                    self?.isInSyncSession = false
+                }
+            )
+            .store(in: &cancellables)
     }
     
     private func providePaceFeedback() {

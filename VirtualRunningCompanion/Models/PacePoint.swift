@@ -81,3 +81,14 @@ extension PacePoint {
         try locationContainer.encode(location.longitude, forKey: .longitude)
     }
 }
+
+// MARK: - Equatable Implementation
+extension PacePoint {
+    static func == (lhs: PacePoint, rhs: PacePoint) -> Bool {
+        return lhs.timestamp == rhs.timestamp &&
+               lhs.location.latitude == rhs.location.latitude &&
+               lhs.location.longitude == rhs.location.longitude &&
+               lhs.pace == rhs.pace &&
+               lhs.heartRate == rhs.heartRate
+    }
+}

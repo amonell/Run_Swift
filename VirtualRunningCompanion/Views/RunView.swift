@@ -1,6 +1,7 @@
 import SwiftUI
 import MapKit
 import CoreLocation
+import Combine
 
 struct RunView: View {
     @StateObject private var viewModel: RunViewModel
@@ -76,7 +77,7 @@ struct RunView: View {
             if viewModel.isInSyncSession {
                 Text("Sync Session Active")
                     .font(.caption)
-                    .fontWeight(.medium)
+                    
                     .foregroundColor(.blue)
             }
         }
@@ -86,8 +87,8 @@ struct RunView: View {
     }
     
     private var mapSection: some View {
-        Map(coordinateRegion: $region, annotationItems: []) { _ in
-            // Map annotations would go here
+        Map(coordinateRegion: $region, annotationItems: viewModel.route.enumerated().map { MapAnnotationItem(id: $0.offset, coordinate: $0.element) }) { item in
+            MapPin(coordinate: item.coordinate, tint: .red)
         }
         .frame(height: 300)
         .overlay(
@@ -181,7 +182,7 @@ struct RunView: View {
             HStack {
                 Text("Running with Friends")
                     .font(.headline)
-                    .fontWeight(.semibold)
+                    
                 
                 Spacer()
                 
@@ -214,7 +215,7 @@ struct RunView: View {
                         Text("Start Run")
                     }
                     .font(.title2)
-                    .fontWeight(.semibold)
+                    
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -236,7 +237,7 @@ struct RunView: View {
                             Text(viewModel.isPaused ? "Resume" : "Pause")
                         }
                         .font(.title3)
-                        .fontWeight(.semibold)
+                        
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -251,7 +252,7 @@ struct RunView: View {
                             Text("Stop")
                         }
                         .font(.title3)
-                        .fontWeight(.semibold)
+                        
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -310,7 +311,7 @@ struct RunView: View {
         VStack(spacing: 4) {
             Text("Pace Sync")
                 .font(.caption)
-                .fontWeight(.medium)
+                
             
             HStack {
                 Text("Target: \(viewModel.formatPace(viewModel.targetPace))")
@@ -326,7 +327,7 @@ struct RunView: View {
                     
                     Text(String(format: "%+.1f", viewModel.paceDeviation))
                         .font(.caption2)
-                        .fontWeight(.medium)
+                        
                 }
             }
         }
@@ -361,7 +362,7 @@ struct MetricView: View {
         VStack(spacing: 4) {
             Text(value)
                 .font(.title)
-                .fontWeight(.bold)
+                
                 .foregroundColor(color)
             
             Text(title)
@@ -380,7 +381,7 @@ struct SecondaryMetricView: View {
         VStack(spacing: 4) {
             Text(value)
                 .font(.subheadline)
-                .fontWeight(.semibold)
+                
             
             Text(title)
                 .font(.caption2)
@@ -402,7 +403,7 @@ struct EnhancedPaceView: View {
             HStack(spacing: 4) {
                 Text(formatPace(currentPace))
                     .font(.title)
-                    .fontWeight(.bold)
+                    
                     .foregroundColor(color)
                 
                 if isInSyncSession && targetPace > 0 {
@@ -454,13 +455,13 @@ struct FriendRunStatusCard: View {
                 .overlay(
                     Text(String(friendUpdate.userId.prefix(1)).uppercased())
                         .font(.headline)
-                        .fontWeight(.bold)
+                        
                         .foregroundColor(.white)
                 )
             
             Text(friendUpdate.userId)
                 .font(.caption)
-                .fontWeight(.medium)
+                
                 .lineLimit(1)
             
             Text(formatPace(friendUpdate.pace))
@@ -525,7 +526,7 @@ struct RunTypeSelectionView: View {
             VStack(spacing: 20) {
                 Text("Choose Run Type")
                     .font(.title2)
-                    .fontWeight(.semibold)
+                    
                     .padding()
                 
                 VStack(spacing: 16) {
@@ -565,7 +566,7 @@ struct RunTypeSelectionView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
                 .font(.title2)
-                .fontWeight(.semibold)
+                
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -627,7 +628,7 @@ struct RunTypeOption: View {
     let mockLocationService = MockLocationService()
     let mockSyncService = MockSyncService()
     
-    return RunView(locationService: mockLocationService, syncService: mockSyncService)
+    RunView(locationService: mockLocationService, syncService: mockSyncService)
 }
 
 // Mock services for preview
@@ -661,4 +662,10 @@ class MockSyncService: RealTimeSyncServiceProtocol {
     
     func isInSession() -> Bool { return false }
     func getCurrentSessionId() -> String? { return nil }
+}
+
+// MARK: - Map Annotation Item
+struct MapAnnotationItem: Identifiable {
+    let id: Int
+    let coordinate: CLLocationCoordinate2D
 }

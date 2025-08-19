@@ -37,7 +37,7 @@ struct HomeView: View {
             
             Text("Ready to Run!")
                 .font(.title2)
-                .fontWeight(.bold)
+                
             
             Text("Start a new run or connect with friends")
                 .font(.subheadline)
@@ -52,7 +52,7 @@ struct HomeView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Quick Start")
                 .font(.headline)
-                .fontWeight(.semibold)
+                
             
             LazyVGrid(columns: [
                 GridItem(.flexible()),
@@ -98,7 +98,7 @@ struct HomeView: View {
             HStack {
                 Text("Recent Runs")
                     .font(.headline)
-                    .fontWeight(.semibold)
+                    
                 
                 Spacer()
                 
@@ -132,7 +132,7 @@ struct HomeView: View {
             HStack {
                 Text("Friend Activity")
                     .font(.headline)
-                    .fontWeight(.semibold)
+                    
                 
                 Spacer()
                 
@@ -182,7 +182,7 @@ struct QuickStartButton: View {
                 
                 Text(title)
                     .font(.caption)
-                    .fontWeight(.medium)
+                    
                     .multilineTextAlignment(.center)
             }
             .frame(maxWidth: .infinity)
@@ -202,7 +202,7 @@ struct RecentRunCard: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(runTypeText)
                     .font(.subheadline)
-                    .fontWeight(.medium)
+                    
                 
                 Text(formatDate(run.startTime))
                     .font(.caption)
@@ -214,7 +214,7 @@ struct RecentRunCard: View {
             VStack(alignment: .trailing, spacing: 4) {
                 Text(formatDistance(run.distance))
                     .font(.subheadline)
-                    .fontWeight(.medium)
+                    
                 
                 if run.averagePace > 0 {
                     Text(formatPace(run.averagePace))
@@ -270,7 +270,7 @@ struct FriendActivityCard: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(friend.user.username)
                     .font(.subheadline)
-                    .fontWeight(.medium)
+                    
                 
                 Text(statusText)
                     .font(.caption)

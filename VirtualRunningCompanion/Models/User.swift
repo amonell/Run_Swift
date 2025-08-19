@@ -42,10 +42,28 @@ struct User: Codable, Identifiable, Equatable {
     }
     
     private func validateEmail() throws {
-        let emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
-        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        // Simple email validation for Linux compatibility
+        guard email.contains("@") && email.contains(".") else {
+            throw ValidationError.invalidEmail
+        }
         
-        guard emailPredicate.evaluate(with: email) else {
+        let components = email.components(separatedBy: "@")
+        guard components.count == 2,
+              !components[0].isEmpty,
+              !components[1].isEmpty,
+              components[1].contains(".") else {
+            throw ValidationError.invalidEmail
+        }
+        
+        // Check that domain part doesn't start or end with dot
+        let domain = components[1]
+        guard !domain.hasPrefix(".") && !domain.hasSuffix(".") else {
+            throw ValidationError.invalidEmail
+        }
+        
+        // Check that there's at least one character after the last dot
+        let domainParts = domain.components(separatedBy: ".")
+        guard let lastPart = domainParts.last, !lastPart.isEmpty else {
             throw ValidationError.invalidEmail
         }
     }
