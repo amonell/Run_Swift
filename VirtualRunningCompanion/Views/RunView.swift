@@ -2,7 +2,6 @@ import SwiftUI
 import MapKit
 import CoreLocation
 import Combine
-import VirtualRunningCompanion
 
 struct RunView: View {
     @StateObject private var viewModel: RunViewModel

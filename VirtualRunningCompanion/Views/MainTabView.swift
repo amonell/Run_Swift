@@ -1,5 +1,4 @@
 import SwiftUI
-import VirtualRunningCompanion
 
 struct MainTabView: View {
     @State private var selectedTab = 0

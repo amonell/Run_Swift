@@ -1,5 +1,4 @@
 import SwiftUI
-import VirtualRunningCompanion
 
 struct FriendsView: View {
     @State private var friends: [Friend] = []

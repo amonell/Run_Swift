@@ -3,7 +3,6 @@ import SwiftUI
 import Combine
 import CoreLocation
 import AVFoundation
-import VirtualRunningCompanion
 
 @MainActor
 class RunViewModel: ObservableObject {

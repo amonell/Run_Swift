@@ -1,17 +1,6 @@
 import Foundation
 import Combine
 
-// MARK: - Location Coordinate Model
-struct LocationCoordinate2D: Codable {
-    let latitude: Double
-    let longitude: Double
-    
-    init(latitude: Double, longitude: Double) {
-        self.latitude = latitude
-        self.longitude = longitude
-    }
-}
-
 // MARK: - WebSocket Message Types
 struct WebSocketMessage: Codable {
     let type: MessageType
