@@ -2,6 +2,17 @@ import Foundation
 import Combine
 import CoreLocation
 
+// MARK: - Location Coordinate Model
+struct LocationCoordinate2D: Codable {
+    let latitude: Double
+    let longitude: Double
+    
+    init(latitude: Double, longitude: Double) {
+        self.latitude = latitude
+        self.longitude = longitude
+    }
+}
+
 // MARK: - Type Alias for compatibility
 typealias LocationCoordinate = LocationCoordinate2D
 

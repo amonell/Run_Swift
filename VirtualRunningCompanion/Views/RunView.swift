@@ -13,7 +13,7 @@ struct RunView: View {
     @State private var selectedRunType: RunType = .solo
     
     init(locationService: LocationTrackingServiceProtocol, syncService: RealTimeSyncServiceProtocol) {
-        self._viewModel = StateObject(wrappedValue: RunViewModel(locationService: locationService, syncService: syncService))
+        _viewModel = StateObject(wrappedValue: RunViewModel(locationService: locationService, syncService: syncService))
     }
     
     var body: some View {
