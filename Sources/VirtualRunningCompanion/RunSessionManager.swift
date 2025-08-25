@@ -1,10 +1,6 @@
 import Foundation
-#if canImport(CoreLocation)
 import CoreLocation
-#endif
-#if canImport(Combine)
 import Combine
-#endif
 
 /// Enum representing the current state of a run session
 public enum RunSessionState: Equatable {

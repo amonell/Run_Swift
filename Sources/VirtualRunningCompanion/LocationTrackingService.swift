@@ -1,10 +1,6 @@
 import Foundation
-#if canImport(CoreLocation)
 import CoreLocation
-#endif
-#if canImport(Combine)
 import Combine
-#endif
 
 /// Protocol defining the location tracking service interface
 #if canImport(Combine) && canImport(CoreLocation)

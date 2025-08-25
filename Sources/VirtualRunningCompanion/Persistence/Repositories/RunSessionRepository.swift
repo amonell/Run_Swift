@@ -1,10 +1,6 @@
-#if canImport(CoreData)
-import CoreData
-#endif
 import Foundation
-#if canImport(Combine)
 import Combine
-#endif
+import CoreData
 
 // MARK: - Protocol
 

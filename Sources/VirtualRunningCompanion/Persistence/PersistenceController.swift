@@ -1,7 +1,6 @@
-#if canImport(CoreData)
-import CoreData
-#endif
 import Foundation
+import Combine
+import CoreData
 
 /// Core Data persistence controller for managing the local data stack
 public class PersistenceController: ObservableObject {
