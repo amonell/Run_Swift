@@ -1,9 +1,14 @@
+#if canImport(CoreData)
 import CoreData
+#endif
 import Foundation
+#if canImport(Combine)
 import Combine
+#endif
 
 // MARK: - Protocol
 
+#if canImport(Combine)
 public protocol FriendRepositoryProtocol {
     func save(_ friend: Friend, for userId: UUID) -> AnyPublisher<Friend, Error>
     func fetch(by id: UUID) -> AnyPublisher<Friend?, Error>
@@ -12,6 +17,16 @@ public protocol FriendRepositoryProtocol {
     func delete(by id: UUID) -> AnyPublisher<Void, Error>
     func update(_ friend: Friend) -> AnyPublisher<Friend, Error>
 }
+#else
+public protocol FriendRepositoryProtocol {
+    func save(_ friend: Friend, for userId: UUID, completion: @escaping (Result<Friend, Error>) -> Void)
+    func fetch(by id: UUID, completion: @escaping (Result<Friend?, Error>) -> Void)
+    func fetchAll(for userId: UUID, completion: @escaping (Result<[Friend], Error>) -> Void)
+    func fetchByStatus(_ status: FriendStatus, for userId: UUID, completion: @escaping (Result<[Friend], Error>) -> Void)
+    func delete(by id: UUID, completion: @escaping (Result<Void, Error>) -> Void)
+    func update(_ friend: Friend, completion: @escaping (Result<Friend, Error>) -> Void)
+}
+#endif
 
 // MARK: - Implementation
 

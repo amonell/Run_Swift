@@ -1,5 +1,7 @@
 import Foundation
+#if canImport(Combine)
 import Combine
+#endif
 
 // MARK: - WebSocket Message Types
 public struct WebSocketMessage: Codable {
@@ -25,7 +27,7 @@ struct JoinSessionData: Codable {
     let friends: [String] // Friend user IDs
 }
 
-struct PaceUpdateData: Codable {
+public struct PaceUpdateData: Codable {
     let userId: String
     let sessionId: String
     let pace: Double
@@ -49,6 +51,7 @@ struct SessionStatusData: Codable {
 }
 
 // MARK: - WebSocket Client Protocol
+#if canImport(Combine)
 public protocol WebSocketClientProtocol {
     var connectionStatus: AnyPublisher<ConnectionStatus, Never> { get }
     var messageReceived: AnyPublisher<WebSocketMessage, Never> { get }
@@ -58,6 +61,14 @@ public protocol WebSocketClientProtocol {
     func send(message: WebSocketMessage)
     func isConnected() -> Bool
 }
+#else
+public protocol WebSocketClientProtocol {
+    func connect(to url: URL)
+    func disconnect()
+    func send(message: WebSocketMessage)
+    func isConnected() -> Bool
+}
+#endif
 
 // MARK: - WebSocket Client Implementation
 public class WebSocketClient: NSObject, WebSocketClientProtocol {
@@ -90,7 +101,7 @@ public class WebSocketClient: NSObject, WebSocketClientProtocol {
         super.init()
     }
     
-    func connect(to url: URL) {
+    public func connect(to url: URL) {
         guard webSocketTask == nil else { return }
         
         connectionStatusSubject.send(.connecting)
@@ -103,7 +114,7 @@ public class WebSocketClient: NSObject, WebSocketClientProtocol {
         startPingTimer()
     }
     
-    func disconnect() {
+    public func disconnect() {
         stopReconnectTimer()
         stopPingTimer()
         
@@ -113,7 +124,7 @@ public class WebSocketClient: NSObject, WebSocketClientProtocol {
         connectionStatusSubject.send(.disconnected)
     }
     
-    func send(message: WebSocketMessage) {
+    public func send(message: WebSocketMessage) {
         guard isConnected() else {
             print("WebSocket not connected, cannot send message")
             return
@@ -134,7 +145,7 @@ public class WebSocketClient: NSObject, WebSocketClientProtocol {
         }
     }
     
-    func isConnected() -> Bool {
+    public func isConnected() -> Bool {
         return webSocketTask?.state == .running
     }
     

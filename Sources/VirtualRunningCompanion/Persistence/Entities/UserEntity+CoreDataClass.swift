@@ -1,4 +1,6 @@
+#if canImport(CoreData)
 import CoreData
+#endif
 import Foundation
 
 @objc(UserEntity)

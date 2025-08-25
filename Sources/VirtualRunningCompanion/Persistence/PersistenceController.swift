@@ -1,4 +1,6 @@
+#if canImport(CoreData)
 import CoreData
+#endif
 import Foundation
 
 /// Core Data persistence controller for managing the local data stack

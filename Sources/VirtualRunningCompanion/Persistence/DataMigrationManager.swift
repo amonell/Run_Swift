@@ -1,6 +1,9 @@
+#if canImport(CoreData)
 import CoreData
+#endif
 import Foundation
 
+#if canImport(CoreData)
 /// Manages Core Data model migrations and versioning
 public class DataMigrationManager {
     
@@ -188,3 +191,36 @@ public class VirtualRunningCompanionMigrationPolicy: NSEntityMigrationPolicy {
         }
     }
 }
+#else
+// Stub implementation for platforms without CoreData
+public class DataMigrationManager {
+    public init(modelName: String = "VirtualRunningCompanion", storeURL: URL? = nil) {
+        // Stub initialization
+    }
+    
+    public func requiresMigration() -> Bool {
+        return false
+    }
+    
+    public func performMigration() throws {
+        // No-op for platforms without CoreData
+    }
+}
+
+public enum MigrationError: Error, LocalizedError {
+    case mappingModelNotFound
+    case migrationFailed(String)
+    case storeNotFound
+    
+    public var errorDescription: String? {
+        switch self {
+        case .mappingModelNotFound:
+            return "Could not find mapping model for migration"
+        case .migrationFailed(let reason):
+            return "Migration failed: \(reason)"
+        case .storeNotFound:
+            return "Core Data store not found"
+        }
+    }
+}
+#endif

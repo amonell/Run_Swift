@@ -1,6 +1,10 @@
 import Foundation
+#if canImport(Combine)
 import Combine
+#endif
+#if canImport(CoreLocation)
 import CoreLocation
+#endif
 
 // MARK: - Type Alias for compatibility
 typealias LocationCoordinate = LocationCoordinate2D
@@ -28,6 +32,7 @@ public struct SessionInfo: Codable {
 }
 
 // MARK: - Real-Time Sync Service Protocol
+#if canImport(Combine) && canImport(CoreLocation)
 public protocol RealTimeSyncServiceProtocol {
     var friendUpdates: AnyPublisher<[FriendRunUpdate], Never> { get }
     var connectionStatus: AnyPublisher<ConnectionStatus, Never> { get }
@@ -39,8 +44,26 @@ public protocol RealTimeSyncServiceProtocol {
     func isInSession() -> Bool
     func getCurrentSessionId() -> String?
 }
+#elif canImport(CoreLocation)
+public protocol RealTimeSyncServiceProtocol {
+    func joinSession(sessionId: String, userId: String, friends: [User], completion: @escaping (Result<Void, Error>) -> Void)
+    func leaveSession(completion: @escaping (Result<Void, Error>) -> Void)
+    func sendPaceUpdate(pace: Double, location: CLLocation, completion: @escaping (Result<Void, Error>) -> Void)
+    func isInSession() -> Bool
+    func getCurrentSessionId() -> String?
+}
+#else
+public protocol RealTimeSyncServiceProtocol {
+    func joinSession(sessionId: String, userId: String, friends: [User], completion: @escaping (Result<Void, Error>) -> Void)
+    func leaveSession(completion: @escaping (Result<Void, Error>) -> Void)
+    func sendPaceUpdate(pace: Double, location: LocationCoordinate2D, completion: @escaping (Result<Void, Error>) -> Void)
+    func isInSession() -> Bool
+    func getCurrentSessionId() -> String?
+}
+#endif
 
 // MARK: - Real-Time Sync Service Implementation
+#if canImport(Combine)
 public class RealTimeSyncService: RealTimeSyncServiceProtocol {
     private let webSocketClient: WebSocketClientProtocol
     private let serverURL: URL
@@ -81,7 +104,7 @@ public class RealTimeSyncService: RealTimeSyncServiceProtocol {
     
     // MARK: - Public Methods
     
-    func joinSession(sessionId: String, userId: String, friends: [User]) -> AnyPublisher<Void, Error> {
+    public func joinSession(sessionId: String, userId: String, friends: [User]) -> AnyPublisher<Void, Error> {
         return Future<Void, Error> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(SyncServiceError.serviceUnavailable))
@@ -112,7 +135,7 @@ public class RealTimeSyncService: RealTimeSyncServiceProtocol {
         .eraseToAnyPublisher()
     }
     
-    func leaveSession() -> AnyPublisher<Void, Error> {
+    public func leaveSession() -> AnyPublisher<Void, Error> {
         return Future<Void, Error> { [weak self] promise in
             guard let self = self,
                   let sessionId = self.currentSessionId,
@@ -147,7 +170,7 @@ public class RealTimeSyncService: RealTimeSyncServiceProtocol {
         .eraseToAnyPublisher()
     }
     
-    func sendPaceUpdate(pace: Double, location: CLLocation) -> AnyPublisher<Void, Error> {
+    public func sendPaceUpdate(pace: Double, location: CLLocation) -> AnyPublisher<Void, Error> {
         return Future<Void, Error> { [weak self] promise in
             guard let self = self,
                   let sessionId = self.currentSessionId,
@@ -191,11 +214,11 @@ public class RealTimeSyncService: RealTimeSyncServiceProtocol {
         .eraseToAnyPublisher()
     }
     
-    func isInSession() -> Bool {
+    public func isInSession() -> Bool {
         return currentSessionId != nil
     }
     
-    func getCurrentSessionId() -> String? {
+    public func getCurrentSessionId() -> String? {
         return currentSessionId
     }
     
@@ -303,10 +326,42 @@ public class RealTimeSyncService: RealTimeSyncServiceProtocol {
         }
     }
 }
+#else
+// Stub implementation for platforms without Combine
+public class RealTimeSyncService: RealTimeSyncServiceProtocol {
+    private var currentSessionId: String?
+    
+    public init(webSocketClient: WebSocketClientProtocol, serverURL: URL) {
+        // Stub initialization
+    }
+    
+    public func joinSession(sessionId: String, userId: String, friends: [User], completion: @escaping (Result<Void, Error>) -> Void) {
+        currentSessionId = sessionId
+        completion(.success(()))
+    }
+    
+    public func leaveSession(completion: @escaping (Result<Void, Error>) -> Void) {
+        currentSessionId = nil
+        completion(.success(()))
+    }
+    
+    public func sendPaceUpdate(pace: Double, location: LocationCoordinate2D, completion: @escaping (Result<Void, Error>) -> Void) {
+        completion(.success(()))
+    }
+    
+    public func isInSession() -> Bool {
+        return currentSessionId != nil
+    }
+    
+    public func getCurrentSessionId() -> String? {
+        return currentSessionId
+    }
+}
+#endif
 
 // MARK: - Supporting Data Models
 
-struct LeaveSessionData: Codable {
+public struct LeaveSessionData: Codable {
     let sessionId: String
     let userId: String
 }

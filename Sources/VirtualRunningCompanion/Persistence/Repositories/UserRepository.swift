@@ -1,9 +1,14 @@
+#if canImport(CoreData)
 import CoreData
+#endif
 import Foundation
+#if canImport(Combine)
 import Combine
+#endif
 
 // MARK: - Protocol
 
+#if canImport(Combine)
 public protocol UserRepositoryProtocol {
     func save(_ user: User) -> AnyPublisher<User, Error>
     func fetch(by id: UUID) -> AnyPublisher<User?, Error>
@@ -12,6 +17,16 @@ public protocol UserRepositoryProtocol {
     func update(_ user: User) -> AnyPublisher<User, Error>
     func searchUsers(query: String) -> AnyPublisher<[User], Error>
 }
+#else
+public protocol UserRepositoryProtocol {
+    func save(_ user: User, completion: @escaping (Result<User, Error>) -> Void)
+    func fetch(by id: UUID, completion: @escaping (Result<User?, Error>) -> Void)
+    func fetchAll(completion: @escaping (Result<[User], Error>) -> Void)
+    func delete(by id: UUID, completion: @escaping (Result<Void, Error>) -> Void)
+    func update(_ user: User, completion: @escaping (Result<User, Error>) -> Void)
+    func searchUsers(query: String, completion: @escaping (Result<[User], Error>) -> Void)
+}
+#endif
 
 // MARK: - Implementation
 

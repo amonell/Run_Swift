@@ -1,6 +1,10 @@
 import Foundation
+#if canImport(CoreLocation)
 import CoreLocation
+#endif
+#if canImport(Combine)
 import Combine
+#endif
 
 /// Enum representing the current state of a run session
 public enum RunSessionState: Equatable {
@@ -14,6 +18,7 @@ public enum RunSessionState: Equatable {
 }
 
 /// Protocol defining the run session manager interface
+#if canImport(Combine)
 public protocol RunSessionManagerProtocol {
     func startRun(type: RunType, userId: UUID) -> AnyPublisher<RunSession, Error>
     func pauseRun() -> AnyPublisher<Void, Error>
@@ -24,6 +29,15 @@ public protocol RunSessionManagerProtocol {
     var currentSession: AnyPublisher<RunSession?, Never> { get }
     var sessionState: AnyPublisher<RunSessionState, Never> { get }
 }
+#else
+public protocol RunSessionManagerProtocol {
+    func startRun(type: RunType, userId: UUID, completion: @escaping (Result<RunSession, Error>) -> Void)
+    func pauseRun(completion: @escaping (Result<Void, Error>) -> Void)
+    func resumeRun(completion: @escaping (Result<Void, Error>) -> Void)
+    func endRun(completion: @escaping (Result<RunSession, Error>) -> Void)
+    func recoverSession(completion: @escaping (Result<RunSession?, Error>) -> Void)
+}
+#endif
 
 /// Manager responsible for run session lifecycle and state management
 public class RunSessionManager: RunSessionManagerProtocol {

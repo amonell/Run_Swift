@@ -1,8 +1,13 @@
 import Foundation
+#if canImport(CoreLocation)
 import CoreLocation
+#endif
+#if canImport(Combine)
 import Combine
+#endif
 
 /// Protocol defining the location tracking service interface
+#if canImport(Combine) && canImport(CoreLocation)
 public protocol LocationTrackingServiceProtocol {
     func startTracking()
     func stopTracking()
@@ -12,7 +17,16 @@ public protocol LocationTrackingServiceProtocol {
     var authorizationStatus: AnyPublisher<CLAuthorizationStatus, Never> { get }
     var isTracking: Bool { get }
 }
+#else
+public protocol LocationTrackingServiceProtocol {
+    func startTracking()
+    func stopTracking()
+    func getCurrentLocation() -> LocationCoordinate2D?
+    var isTracking: Bool { get }
+}
+#endif
 
+#if canImport(CoreLocation) && canImport(Combine)
 /// Service responsible for GPS tracking, pace calculation, and location management
 public class LocationTrackingService: NSObject, LocationTrackingServiceProtocol {
     
@@ -214,3 +228,22 @@ extension LocationTrackingService: CLLocationManagerDelegate {
         }
     }
 }
+#else
+/// Stub implementation for platforms without CoreLocation
+public class LocationTrackingService: LocationTrackingServiceProtocol {
+    public private(set) var isTracking = false
+    
+    public func startTracking() {
+        isTracking = true
+    }
+    
+    public func stopTracking() {
+        isTracking = false
+    }
+    
+    public func getCurrentLocation() -> LocationCoordinate2D? {
+        // Return a mock location for testing
+        return LocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
+    }
+}
+#endif

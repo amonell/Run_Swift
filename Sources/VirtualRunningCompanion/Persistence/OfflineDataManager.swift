@@ -1,6 +1,10 @@
 import Foundation
+#if canImport(Combine)
 import Combine
+#endif
+#if canImport(CoreData)
 import CoreData
+#endif
 
 /// Manages offline data caching and synchronization
 public class OfflineDataManager: ObservableObject {

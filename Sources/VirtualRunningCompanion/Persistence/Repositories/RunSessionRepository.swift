@@ -1,9 +1,14 @@
+#if canImport(CoreData)
 import CoreData
+#endif
 import Foundation
+#if canImport(Combine)
 import Combine
+#endif
 
 // MARK: - Protocol
 
+#if canImport(Combine)
 public protocol RunSessionRepositoryProtocol {
     func save(_ runSession: RunSession) -> AnyPublisher<RunSession, Error>
     func fetch(by id: UUID) -> AnyPublisher<RunSession?, Error>
@@ -13,6 +18,17 @@ public protocol RunSessionRepositoryProtocol {
     func delete(by id: UUID) -> AnyPublisher<Void, Error>
     func update(_ runSession: RunSession) -> AnyPublisher<RunSession, Error>
 }
+#else
+public protocol RunSessionRepositoryProtocol {
+    func save(_ runSession: RunSession, completion: @escaping (Result<RunSession, Error>) -> Void)
+    func fetch(by id: UUID, completion: @escaping (Result<RunSession?, Error>) -> Void)
+    func fetchAll(completion: @escaping (Result<[RunSession], Error>) -> Void)
+    func fetchByUser(userId: UUID, completion: @escaping (Result<[RunSession], Error>) -> Void)
+    func fetchRecent(limit: Int, completion: @escaping (Result<[RunSession], Error>) -> Void)
+    func delete(by id: UUID, completion: @escaping (Result<Void, Error>) -> Void)
+    func update(_ runSession: RunSession, completion: @escaping (Result<RunSession, Error>) -> Void)
+}
+#endif
 
 // MARK: - Implementation
 
