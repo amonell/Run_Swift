@@ -2,12 +2,12 @@ import Foundation
 import Combine
 
 // MARK: - WebSocket Message Types
-struct WebSocketMessage: Codable {
+public struct WebSocketMessage: Codable {
     let type: MessageType
     let data: Data
     let timestamp: Date
     
-    enum MessageType: String, Codable {
+    public enum MessageType: String, Codable {
         case joinSession = "join_session"
         case leaveSession = "leave_session"
         case paceUpdate = "pace_update"
@@ -33,7 +33,7 @@ struct PaceUpdateData: Codable {
     let timestamp: Date
 }
 
-struct FriendUpdateData: Codable {
+public struct FriendUpdateData: Codable {
     let userId: String
     let sessionId: String
     let pace: Double
@@ -49,7 +49,7 @@ struct SessionStatusData: Codable {
 }
 
 // MARK: - WebSocket Client Protocol
-protocol WebSocketClientProtocol {
+public protocol WebSocketClientProtocol {
     var connectionStatus: AnyPublisher<ConnectionStatus, Never> { get }
     var messageReceived: AnyPublisher<WebSocketMessage, Never> { get }
     
@@ -60,7 +60,7 @@ protocol WebSocketClientProtocol {
 }
 
 // MARK: - WebSocket Client Implementation
-class WebSocketClient: NSObject, WebSocketClientProtocol {
+public class WebSocketClient: NSObject, WebSocketClientProtocol {
     private var webSocketTask: URLSessionWebSocketTask?
     private var urlSession: URLSession
     
@@ -82,7 +82,7 @@ class WebSocketClient: NSObject, WebSocketClientProtocol {
         messageReceivedSubject.eraseToAnyPublisher()
     }
     
-    override init() {
+    public override init() {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 10.0
         configuration.timeoutIntervalForResource = 30.0

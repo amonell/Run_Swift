@@ -5,7 +5,7 @@ import CoreLocation
 import AVFoundation
 
 @MainActor
-class RunViewModel: ObservableObject {
+public class RunViewModel: ObservableObject {
     // MARK: - Published Properties
     @Published var isRunning = false
     @Published var isPaused = false
@@ -64,7 +64,7 @@ class RunViewModel: ObservableObject {
     }
     
     // MARK: - Initialization
-    init(locationService: LocationTrackingServiceProtocol, syncService: RealTimeSyncServiceProtocol) {
+    public init(locationService: LocationTrackingServiceProtocol, syncService: RealTimeSyncServiceProtocol) {
         self.locationService = locationService
         self.syncService = syncService
         

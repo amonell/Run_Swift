@@ -1,13 +1,13 @@
 import Foundation
 
 public struct User: Codable, Identifiable, Equatable {
-    let id: UUID
-    let username: String
-    let email: String
-    let profileImageURL: String?
-    let createdAt: Date
+    public let id: UUID
+    public let username: String
+    public let email: String
+    public let profileImageURL: String?
+    public let createdAt: Date
     
-    init(id: UUID = UUID(), username: String, email: String, profileImageURL: String? = nil, createdAt: Date = Date()) {
+    public init(id: UUID = UUID(), username: String, email: String, profileImageURL: String? = nil, createdAt: Date = Date()) {
         self.id = id
         self.username = username
         self.email = email

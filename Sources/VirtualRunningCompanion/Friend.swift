@@ -1,14 +1,14 @@
 import Foundation
 
 public struct Friend: Codable, Identifiable, Equatable {
-    let id: UUID
-    let user: User
-    let status: FriendStatus
-    let isOnline: Bool
-    let lastRunDate: Date?
-    let totalRuns: Int
+    public let id: UUID
+    public let user: User
+    public let status: FriendStatus
+    public let isOnline: Bool
+    public let lastRunDate: Date?
+    public let totalRuns: Int
     
-    init(id: UUID = UUID(), user: User, status: FriendStatus, isOnline: Bool = false, 
+    public init(id: UUID = UUID(), user: User, status: FriendStatus, isOnline: Bool = false, 
          lastRunDate: Date? = nil, totalRuns: Int = 0) {
         self.id = id
         self.user = user

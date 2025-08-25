@@ -74,7 +74,7 @@ class MockWebSocketClient: WebSocketClientProtocol {
         messageReceivedSubject.send(message)
     }
     
-    func simulateFriendUpdate(userId: String, sessionId: String, pace: Double, location: LocationCoordinate) {
+    func simulateFriendUpdate(userId: String, sessionId: String, pace: Double, location: LocationCoordinate2D) {
         let friendUpdate = FriendUpdateData(
             userId: userId,
             sessionId: sessionId,

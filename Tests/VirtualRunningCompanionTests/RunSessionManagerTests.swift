@@ -8,14 +8,14 @@ class RunSessionManagerTests: XCTestCase {
     var runSessionManager: RunSessionManager!
     var mockLocationService: MockLocationTrackingService!
     var mockRepository: MockRunSessionRepository!
-    var mockSyncService: MockRealTimeSyncService!
+    var mockSyncService: MockRealTimeSyncServiceForRunSession!
     var cancellables: Set<AnyCancellable>!
     
     override func setUp() {
         super.setUp()
         mockLocationService = MockLocationTrackingService()
         mockRepository = MockRunSessionRepository()
-        mockSyncService = MockRealTimeSyncService()
+        mockSyncService = MockRealTimeSyncServiceForRunSession()
         runSessionManager = RunSessionManager(
             locationService: mockLocationService,
             runSessionRepository: mockRepository,
@@ -547,7 +547,7 @@ class MockRunSessionRepository: RunSessionRepositoryProtocol {
     }
 }
 
-class MockRealTimeSyncService: RealTimeSyncServiceProtocol {
+class MockRealTimeSyncServiceForRunSession: RealTimeSyncServiceProtocol {
     private let friendUpdatesSubject = CurrentValueSubject<[FriendRunUpdate], Never>([])
     private let connectionStatusSubject = CurrentValueSubject<ConnectionStatus, Never>(.disconnected)
     private let sessionInfoSubject = CurrentValueSubject<SessionInfo?, Never>(nil)

@@ -6,7 +6,7 @@ import CoreLocation
 typealias LocationCoordinate = LocationCoordinate2D
 
 // MARK: - Friend Run Update Model
-struct FriendRunUpdate: Codable, Identifiable {
+public struct FriendRunUpdate: Codable, Identifiable {
     let id = UUID()
     let userId: String
     let pace: Double
@@ -20,7 +20,7 @@ struct FriendRunUpdate: Codable, Identifiable {
 }
 
 // MARK: - Session Info Model
-struct SessionInfo: Codable {
+public struct SessionInfo: Codable {
     let sessionId: String
     let participants: [String]
     let status: String
@@ -28,7 +28,7 @@ struct SessionInfo: Codable {
 }
 
 // MARK: - Real-Time Sync Service Protocol
-protocol RealTimeSyncServiceProtocol {
+public protocol RealTimeSyncServiceProtocol {
     var friendUpdates: AnyPublisher<[FriendRunUpdate], Never> { get }
     var connectionStatus: AnyPublisher<ConnectionStatus, Never> { get }
     var sessionInfo: AnyPublisher<SessionInfo?, Never> { get }
@@ -41,7 +41,7 @@ protocol RealTimeSyncServiceProtocol {
 }
 
 // MARK: - Real-Time Sync Service Implementation
-class RealTimeSyncService: RealTimeSyncServiceProtocol {
+public class RealTimeSyncService: RealTimeSyncServiceProtocol {
     private let webSocketClient: WebSocketClientProtocol
     private let serverURL: URL
     
@@ -68,14 +68,14 @@ class RealTimeSyncService: RealTimeSyncServiceProtocol {
     
     // MARK: - Initialization
     
-    init(webSocketClient: WebSocketClientProtocol, serverURL: URL) {
+    public init(webSocketClient: WebSocketClientProtocol, serverURL: URL) {
         self.webSocketClient = webSocketClient
         self.serverURL = serverURL
         
         setupMessageHandling()
     }
     
-    convenience init(serverURL: URL) {
+    public convenience init(serverURL: URL) {
         self.init(webSocketClient: WebSocketClient(), serverURL: serverURL)
     }
     
