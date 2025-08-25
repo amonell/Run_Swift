@@ -1,9 +1,6 @@
-#if canImport(CoreData)
-import CoreData
-#endif
 import Foundation
+import CoreData
 
-#if canImport(CoreData)
 /// Manages Core Data model migrations and versioning
 public class DataMigrationManager {
     
@@ -223,4 +220,3 @@ public enum MigrationError: Error, LocalizedError {
         }
     }
 }
-#endif
