@@ -17,7 +17,7 @@ let package = Package(
         .target(
             name: "VirtualRunningCompanion",
             dependencies: [],
-            path: "VirtualRunningCompanion"
+            path: "Sources/VirtualRunningCompanion"
         ),
         .testTarget(
             name: "VirtualRunningCompanionTests",
