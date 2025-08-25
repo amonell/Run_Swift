@@ -1,5 +1,6 @@
 import SwiftUI
 import MapKit
+import VirtualRunningCompanion
 
 struct HistoryView: View {
     @State private var runs: [RunSession] = []

@@ -3,6 +3,7 @@ import SwiftUI
 import Combine
 import CoreLocation
 import AVFoundation
+import VirtualRunningCompanion
 
 @MainActor
 class RunViewModel: ObservableObject {
@@ -222,7 +223,8 @@ class RunViewModel: ObservableObject {
     private func startRunTimer() {
         runTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             Task { @MainActor in
-                self?.updateElapsedTime()
+                guard let self = self else { return }
+                self.updateElapsedTime()
             }
         }
     }

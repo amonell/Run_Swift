@@ -1,4 +1,5 @@
 import SwiftUI
+import VirtualRunningCompanion
 
 struct HomeView: View {
     @State private var recentRuns: [RunSession] = []
