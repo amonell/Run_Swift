@@ -32,7 +32,7 @@ public struct SessionInfo: Codable {
 }
 
 // MARK: - Real-Time Sync Service Protocol
-#if canImport(Combine) && canImport(CoreLocation)
+#if canImport(Combine)
 public protocol RealTimeSyncServiceProtocol {
     var friendUpdates: AnyPublisher<[FriendRunUpdate], Never> { get }
     var connectionStatus: AnyPublisher<ConnectionStatus, Never> { get }
@@ -40,15 +40,7 @@ public protocol RealTimeSyncServiceProtocol {
     
     func joinSession(sessionId: String, userId: String, friends: [User]) -> AnyPublisher<Void, Error>
     func leaveSession() -> AnyPublisher<Void, Error>
-    func sendPaceUpdate(pace: Double, location: CLLocation) -> AnyPublisher<Void, Error>
-    func isInSession() -> Bool
-    func getCurrentSessionId() -> String?
-}
-#elif canImport(CoreLocation)
-public protocol RealTimeSyncServiceProtocol {
-    func joinSession(sessionId: String, userId: String, friends: [User], completion: @escaping (Result<Void, Error>) -> Void)
-    func leaveSession(completion: @escaping (Result<Void, Error>) -> Void)
-    func sendPaceUpdate(pace: Double, location: CLLocation, completion: @escaping (Result<Void, Error>) -> Void)
+    func sendPaceUpdate(pace: Double, location: LocationCoordinate2D) -> AnyPublisher<Void, Error>
     func isInSession() -> Bool
     func getCurrentSessionId() -> String?
 }
