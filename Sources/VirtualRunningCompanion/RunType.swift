@@ -15,7 +15,7 @@ public enum RunType: Codable, Equatable {
         case solo, synchronized, replay
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let type = try container.decode(TypeValue.self, forKey: .type)
         
@@ -31,7 +31,7 @@ public enum RunType: Codable, Equatable {
         }
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         switch self {

@@ -1,7 +1,5 @@
-#if canImport(CoreData)
-import CoreData
-#endif
 import Foundation
+import CoreData
 
 @objc(FriendEntity)
 public class FriendEntity: NSManagedObject {

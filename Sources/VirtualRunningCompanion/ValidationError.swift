@@ -32,7 +32,7 @@ public enum ValidationError: Error, LocalizedError, Equatable {
     case emptySessionId
     case sessionIdTooLong
     
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
         // User validation errors
         case .emptyUsername:
@@ -88,7 +88,7 @@ public enum ValidationError: Error, LocalizedError, Equatable {
         }
     }
     
-    var recoverySuggestion: String? {
+    public var recoverySuggestion: String? {
         switch self {
         case .emptyUsername, .usernameTooShort, .usernameTooLong, .invalidUsernameCharacters:
             return "Choose a username between 3-30 characters using only letters, numbers, underscores, and hyphens"

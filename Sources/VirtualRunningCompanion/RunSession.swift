@@ -1,7 +1,7 @@
 import Foundation
 
 public struct RunSession: Codable, Identifiable, Equatable {
-    let id: UUID
+    public let id: UUID
     let userId: UUID
     let startTime: Date
     let endTime: Date?
@@ -123,7 +123,7 @@ extension RunSession {
         case latitude, longitude
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(UUID.self, forKey: .id)
         userId = try container.decode(UUID.self, forKey: .userId)
@@ -148,7 +148,7 @@ extension RunSession {
         route = decodedRoute
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(userId, forKey: .userId)

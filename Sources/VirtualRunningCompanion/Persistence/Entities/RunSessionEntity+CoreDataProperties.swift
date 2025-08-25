@@ -1,7 +1,6 @@
+import Foundation
 #if canImport(CoreData)
 import CoreData
-#endif
-import Foundation
 
 extension RunSessionEntity {
     
@@ -21,3 +20,4 @@ extension RunSessionEntity {
     @NSManaged public var participantsData: Data?
     @NSManaged public var user: UserEntity?
 }
+#endif

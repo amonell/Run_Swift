@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 #if canImport(Combine)
 import Combine
 #endif
@@ -247,12 +250,12 @@ public class WebSocketClient: NSObject, WebSocketClientProtocol {
 
 // MARK: - URLSessionWebSocketDelegate
 extension WebSocketClient: URLSessionWebSocketDelegate {
-    func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
+    public func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
         connectionStatusSubject.send(.connected)
         reconnectAttempts = 0
     }
     
-    func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
+    public func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
         connectionStatusSubject.send(.disconnected)
         
         // Attempt reconnection unless it was a manual disconnect

@@ -11,7 +11,7 @@ typealias LocationCoordinate = LocationCoordinate2D
 
 // MARK: - Friend Run Update Model
 public struct FriendRunUpdate: Codable, Identifiable {
-    let id = UUID()
+    public let id = UUID()
     let userId: String
     let pace: Double
     let location: LocationCoordinate2D
