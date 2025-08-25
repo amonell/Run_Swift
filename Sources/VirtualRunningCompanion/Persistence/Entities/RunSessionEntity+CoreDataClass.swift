@@ -1,5 +1,4 @@
 import Foundation
-#if canImport(CoreData)
 import CoreData
 
 @objc(RunSessionEntity)
@@ -86,4 +85,3 @@ public class RunSessionEntity: NSManagedObject {
         return try? JSONDecoder().decode([UUID].self, from: data)
     }
 }
-#endif

@@ -1,10 +1,5 @@
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
-#if canImport(Combine)
 import Combine
-#endif
 
 // MARK: - WebSocket Message Types
 public struct WebSocketMessage: Codable {

@@ -1,7 +1,5 @@
 import Foundation
-#if canImport(Combine)
 import Combine
-#endif
 #if canImport(CoreLocation)
 import CoreLocation
 #endif
