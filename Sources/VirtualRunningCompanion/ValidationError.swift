@@ -1,6 +1,6 @@
 import Foundation
 
-enum ValidationError: Error, LocalizedError, Equatable {
+public enum ValidationError: Error, LocalizedError, Equatable {
     // User validation errors
     case emptyUsername
     case usernameTooShort

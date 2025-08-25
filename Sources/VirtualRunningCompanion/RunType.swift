@@ -1,6 +1,6 @@
 import Foundation
 
-enum RunType: Codable, Equatable {
+public enum RunType: Codable, Equatable {
     case solo
     case synchronized(sessionId: String)
     case replay(originalRunId: UUID)

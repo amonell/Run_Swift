@@ -1,6 +1,6 @@
 import Foundation
 
-enum FriendStatus: String, Codable, CaseIterable {
+public enum FriendStatus: String, Codable, CaseIterable {
     case pending = "pending"
     case accepted = "accepted"
     case blocked = "blocked"

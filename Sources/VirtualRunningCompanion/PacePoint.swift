@@ -1,6 +1,6 @@
 import Foundation
 
-struct PacePoint: Codable, Equatable {
+public struct PacePoint: Codable, Equatable {
     let timestamp: Date
     let location: LocationCoordinate2D
     let pace: Double // minutes per mile/km

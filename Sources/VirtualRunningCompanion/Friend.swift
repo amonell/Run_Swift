@@ -1,6 +1,6 @@
 import Foundation
 
-struct Friend: Codable, Identifiable, Equatable {
+public struct Friend: Codable, Identifiable, Equatable {
     let id: UUID
     let user: User
     let status: FriendStatus
